@@ -1,0 +1,97 @@
+/* Header ================================= */
+/* ======================================== */
+
+.navbar-brand {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#navbarNav {
+    justify-content: flex-end;
+}
+
+/* Header ================================= */
+/* ======================================== */
+
+footer {
+    width: 100%;
+    height: 60px;
+    background-color: #212529;
+    color: #FFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+}
+/* Home Page ============================== */
+/* ======================================== */
+
+.welcomeContent {
+    padding-top: 30px;
+}
+
+/* Sign Up Page =========================== */
+/* ======================================== */
+
+.iti {
+    width: 100%;
+}
+
+/* Real Estates Page ====================== */
+/* ======================================== */
+
+.filterTools {
+    margin-top: 30px;
+}
+
+.filterTools h2 {
+    margin-bottom: 15px;
+}
+
+.filterTools form {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.filterTools form div .form-group div input,
+.filterTools form div .form-group select,
+.filterTools form div .form-group input {
+    width: 170px;
+    margin-right: 10px;
+}
+
+.filterTools form div .form-group button {
+    width: 100px;
+    margin-top: 24px;
+}
+
+.filterTools form div .form-group > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.realEstatesGrid {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.realEstatesGrid {
+    padding-top: 30px;
+}
+
+
