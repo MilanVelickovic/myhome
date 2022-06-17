@@ -83,15 +83,68 @@ footer p {
 
 .realEstatesGrid {
     width: 100%;
+    padding: 30px 3px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
 }
 
-.realEstatesGrid {
-    padding-top: 30px;
+.card {
+   margin: 5.7px;
+   height: 450px;
+}
+
+.realEstatesGrid .card img {
+    width: 100%;
+    height: 237.38px;
+}
+
+.realEstatesGrid .card div:nth-child(1),
+.realEstatesGrid .card div:nth-child(4) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.realEstatesGrid .card .price {
+    background-color: yellow;
+    margin: 0;
+    margin-bottom: 7px;
+    padding: 5px 10px;
+    color: #212529;
+    font-weight: bold;
+    border-radius: 5px
+}
+
+.realEstatesGrid .card .service {
+    background-color: #198754;
+    margin: 0;
+    padding: 5px 10px;
+    color: #FFF;
+    border-radius: 5px
+}
+
+.realEstatesGrid .card .location {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.realEstatesGrid .card > .card-text {
+    height: 48px;
+}
+
+.realEstatesGrid .card .location p {
+    margin: 0;
+}
+
+.realEstatesGrid .card .btn {
+    padding: 4px 10px;
+    font-weight: bold;
 }
 
 

@@ -21,11 +21,11 @@ public class RealEstate {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "type", nullable = false)
     private RealEstateType type;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "address", nullable = false)
     private Address address;
 

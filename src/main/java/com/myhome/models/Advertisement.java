@@ -20,14 +20,18 @@ public class Advertisement {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
+
     @Column(name = "title", nullable = false, length = 32)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "real_estate", nullable = false)
     private RealEstate realEstate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "service", nullable = false)
     private ServiceType service;
 
