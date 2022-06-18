@@ -12,16 +12,6 @@
                 Search by...
             </h2>
             <form>
-                <!--
-                    Price: min - max
-                    Size (m^2): min - max
-                    Service: Buy, Sell, Rent
-                    Type: House, Apartment, Land
-                    Location:
-                        Country: select
-                        City: select
-                    Has car space: bool
-                -->
                 <div>
                     <div class="form-group">
                         <label>Price</label>
@@ -76,6 +66,10 @@
                     </div>
                 </div>
             </form>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Real estates</li>
+            </ol>
         </div>
         <div class="container realEstatesGrid">
             <div class="container realEstatesGrid">
@@ -98,8 +92,11 @@
                         </div>
                         <p class="card-text" th:text="${advertisement.getDescription().substring(0, 60)} + '...'"></p>
                         <div>
-                            <a th:href="@{/realestates/{id}(id=${advertisement.getId()})}" class="btn btn-primary">More details</a>
-                            <p class="service" th:text="${advertisement.getService().getName()}"></p>
+                            <a th:href="@{/realestates/{id}(id=${advertisement.getId()})}" class="btn btn-primary">More details...</a>
+                            <div>
+                                <p class="tag" th:text="${advertisement.getRealEstate().getType().getName()}"></p>&nbsp;
+                                <p th:id="${advertisement.getService().getName().toLowerCase()}" class="tag" th:text="${advertisement.getService().getName()}"></p>
+                            </div>
                         </div>
                     </div>
                 </div>

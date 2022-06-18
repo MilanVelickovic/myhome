@@ -1,3 +1,7 @@
+button {
+    text-transform: none !important;
+}
+
 /* Header ================================= */
 /* ======================================== */
 
@@ -9,7 +13,7 @@
 }
 
 #navbarNav {
-    justify-content: flex-end;
+    justify-content: flex-end !important;
 }
 
 /* Header ================================= */
@@ -56,6 +60,7 @@ footer p {
 }
 
 .filterTools form {
+    margin-bottom: 15px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -83,7 +88,7 @@ footer p {
 
 .realEstatesGrid {
     width: 100%;
-    padding: 30px 3px;
+    padding: 10px 3px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -91,7 +96,7 @@ footer p {
     align-items: flex-start;
 }
 
-.card {
+.realEstatesGrid .card {
    margin: 5.7px;
    height: 450px;
 }
@@ -102,7 +107,8 @@ footer p {
 }
 
 .realEstatesGrid .card div:nth-child(1),
-.realEstatesGrid .card div:nth-child(4) {
+.realEstatesGrid .card div:nth-child(4),
+.realEstatesGrid .card div:nth-child(4) div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -119,8 +125,8 @@ footer p {
     border-radius: 5px
 }
 
-.realEstatesGrid .card .service {
-    background-color: #198754;
+.realEstatesGrid .card .tag {
+    background-color: #5a49f3;
     margin: 0;
     padding: 5px 10px;
     color: #FFF;
@@ -143,8 +149,22 @@ footer p {
 }
 
 .realEstatesGrid .card .btn {
+    background-color: #198754;
+    border: 1px solid #198754;
+    text-transform: none;
     padding: 4px 10px;
-    font-weight: bold;
+}
+
+#purchase {
+    background-color: #8ac926;
+}
+
+#sale {
+    background-color: #5497ff;
+}
+
+#rent {
+    background-color: #ff6b35;
 }
 
 
