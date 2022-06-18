@@ -2,7 +2,7 @@
 <html lang="en">
     <th:block th:include="fragments/fragments :: head(title='Profile Page')"></th:block>
     <body>
-        <i class="flag flag-united-states"></i>
+        <p th:text="${user.getFirstName()}"></p>
     </body>
     <th:block th:include="fragments/fragments :: footer"></th:block>
 </html>

@@ -37,11 +37,9 @@ public class RealEstatesController {
     }
 
     @GetMapping("/realestates/{id}")
-    //@GetMapping("/realestatess")
     public ModelAndView getRealEstatePage(@PathVariable Integer id) {
-    //public ModelAndView getRealEstatePage() {
 
-        Advertisement advertisement = advertisementService.findById(id).get();
+        Advertisement advertisement = advertisementService.findById(new Integer(1)).get();
 
         Converter converter = new Converter();
         HashCreator hashCreator = new HashCreator();

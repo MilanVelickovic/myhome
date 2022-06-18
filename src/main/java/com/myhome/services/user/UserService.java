@@ -1,5 +1,10 @@
 package com.myhome.services.user;
 
-public interface UserService {
+import com.myhome.models.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends UserDetailsService {
+
+    public User findByEmail(String email);
 
 }

@@ -25,14 +25,21 @@
 
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your profile</h5>
 
+                                        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                            Invalid username or password.
+                                        </div>
+                                        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                                            You have been signed out.
+                                        </div>
+
                                         <div class="form-outline mb-4">
-                                            <input type="email" id="form2Example17" class="form-control form-control-lg" />
+                                            <input type="email" name="username" id="form2Example17" class="form-control form-control-lg" />
                                             <label class="form-label" for="form2Example17">Email address</label>
                                             <!-- value="milan.velickovic.4101@metropolitan.ac.rs" -->
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" id="form2Example27" class="form-control form-control-lg" />
+                                            <input type="password" name="password" id="form2Example27" class="form-control form-control-lg" />
                                             <label class="form-label" for="form2Example27">Password</label>
                                             <!-- value="Milan123" -->
                                         </div>
