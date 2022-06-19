@@ -11,11 +11,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RealEstateTypeServiceImpl implements RealEstateTypeService {
 
-    private RealEstateTypeRepository realEstateTypeRepository;
+    private final RealEstateTypeRepository realEstateTypeRepository;
 
     @Override
-    public List<RealEstateType> getAll() {
+    public List<RealEstateType> findAll() {
         return realEstateTypeRepository.findAll();
+    }
+
+    @Override
+    public RealEstateType findById(Integer id) {
+        System.out.println(id);
+        System.out.println(realEstateTypeRepository.findById(id).get().getName());
+        return realEstateTypeRepository.findById(id).get();
     }
 
 }

@@ -8,4 +8,6 @@ public interface AddressService {
 
     public List<Address> getAll();
 
+    public Address save(Address address);
+
 }

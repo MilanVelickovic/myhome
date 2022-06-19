@@ -39,14 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/home", "/signin", "/signup", "/realestates", "/realestates/**").permitAll()
-                .antMatchers("/profile").hasAnyRole("User", "Admin")
+                .antMatchers("/", "/signin", "/signup", "/advertisements").permitAll()
+                .antMatchers("/profile", "/profile/**", "/advertisements/**").hasAnyRole("User", "Admin")
                 .and().formLogin().loginPage("/signin")
+                .defaultSuccessUrl("/profile")
                 .and()
                 .logout()
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/signout"))
-                .logoutSuccessUrl("/signin");
+                .logoutSuccessUrl("/signin?signout");
     }
 }

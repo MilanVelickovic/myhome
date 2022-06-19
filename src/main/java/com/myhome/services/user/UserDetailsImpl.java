@@ -14,14 +14,17 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(User user) {
         this.user = user;
-        System.out.println("[UserDetailsImpl]:" + user.getEmail());
     }
 
     public UserDetailsImpl() { }
 
+    public User getUser() {
+        return this.user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(user.getRole().getName()));
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));
     }
 
     @Override

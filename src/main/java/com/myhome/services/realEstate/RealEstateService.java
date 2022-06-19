@@ -8,4 +8,6 @@ public interface RealEstateService {
 
     public List<RealEstate> getAll();
 
+    public RealEstate save(RealEstate realEstate);
+
 }

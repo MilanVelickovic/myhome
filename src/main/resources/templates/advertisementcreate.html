@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <th:block th:include="fragments/fragments :: head(title='Home Page', includeMDB=false)"></th:block>
+    <body>
+        <th:block th:include="fragments/fragments :: header"></th:block>
+
+            <div id="createPage" class="container py-5 h-100">
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/profile}">Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Create advertisement</li>
+                    </ol>
+                </nav>
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="card-body p-4 p-lg-5 text-black">
+                            <form th:action="@{/advertisements/create}" method="POST" th:object="${advertisementCreateForm}">
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <span class="h1 fw-bold mb-0">Create advertisement</span>
+                                </div>
+
+                                <div>
+                                    <div>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Advertisement details</h5>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" th:field="*{title}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Description</label>
+                                            <input type="text" th:field="*{description}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Service</label>
+                                            <select th:field="*{service}" class="form-select">
+                                                <!--<option value="Purchase">Purchase</option>-->
+                                                <option value="1">Sale</option>
+                                                <option value="2">Rent</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Price ($)</label>
+                                            <input type="number" th:field="*{price}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Images</label>
+                                            <input type="file" th:field="*{images}" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Real estate details</h5>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Type</label>
+                                            <select th:field="*{type}" class="form-select">
+                                                <!--<option value="Purchase">Purchase</option>-->
+                                                <option value="1">House</option>
+                                                <option value="2">Apartment</option>
+                                                <option value="3">Land</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Size (m<sup>2</sup>)</label>
+                                            <input type="number" th:field="*{size}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Bedrooms</label>
+                                            <input type="number" th:field="*{bedrooms}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Bathrooms</label>
+                                            <input type="number" th:field="*{bathrooms}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Car spaces</label>
+                                            <input type="number" th:field="*{carSpaces}" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Address details</h5>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Country</label>
+                                            <th:block th:include="fragments/fragments :: countrySelect"></th:block>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">City</label>
+                                            <input type="text" th:field="*{city}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Street</label>
+                                            <input type="text" th:field="*{street}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label">Number</label>
+                                            <input type="text" th:field="*{number}" class="form-control" />
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <button class="btn btn-success" type="submit">Create advertisement</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <th:block th:include="fragments/fragments :: footer"></th:block>
+    </body>
+</html>

@@ -11,10 +11,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RealEstateServiceImpl implements RealEstateService {
 
-    private RealEstateRepository realEstateRepository;
+    private final RealEstateRepository realEstateRepository;
 
     @Override
     public List<RealEstate> getAll() {
         return realEstateRepository.findAll();
+    }
+
+    @Override
+    public RealEstate save(RealEstate realEstate) {
+        return realEstateRepository.save(realEstate);
     }
 }

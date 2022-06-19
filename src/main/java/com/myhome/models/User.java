@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -39,7 +41,13 @@ public class User {
     @JoinColumn(name = "role", nullable = false)
     private Role role;
 
+    @Column(name = "avatar", nullable = false, length = 8)
+    private String avatar;
+
     @Column(name = "joined_on", nullable = false)
     private Instant joinedOn;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Advertisement> advertisements = new LinkedHashSet<>();
 
 }

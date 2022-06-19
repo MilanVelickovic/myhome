@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <th:block th:include="fragments/fragments :: head(title='Sign In Page')"></th:block>
+    <th:block th:include="fragments/fragments :: head(title='Sign In Page', includeMDB=true)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
         <div class="container py-5 h-100">
@@ -26,22 +26,20 @@
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your profile</h5>
 
                                         <div th:if="${param.error}" class="alert alert-danger" role="alert">
-                                            Invalid username or password.
+                                            Invalid email address or password.
                                         </div>
-                                        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                                        <div th:if="${param.signout}" class="alert alert-success" role="alert">
                                             You have been signed out.
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="email" name="username" id="form2Example17" class="form-control form-control-lg" />
+                                            <input type="email" name="username" id="form2Example17" class="form-control form-control-lg" value="milan.velickovic@gmail.com"/>
                                             <label class="form-label" for="form2Example17">Email address</label>
-                                            <!-- value="milan.velickovic.4101@metropolitan.ac.rs" -->
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input type="password" name="password" id="form2Example27" class="form-control form-control-lg" />
+                                            <input type="password" name="password" id="form2Example27" class="form-control form-control-lg" value="Milan123"/>
                                             <label class="form-label" for="form2Example27">Password</label>
-                                            <!-- value="Milan123" -->
                                         </div>
 
                                         <div class="pt-1 mb-4">

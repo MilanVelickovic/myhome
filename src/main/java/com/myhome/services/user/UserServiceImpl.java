@@ -3,9 +3,7 @@ package com.myhome.services.user;
 import com.myhome.models.User;
 import com.myhome.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +20,24 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> user = userRepository.findByEmail(email);
 
+        if (user.isEmpty())
+            return null;
+
         return user.get();
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("[UserServiceImpl]:" + username);
         Optional<User> user = userRepository.findByEmail(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException(username + " not found!"));
+        if (user.isEmpty())
+            return null;
 
         return user.map(UserDetailsImpl::new).get();
     }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface RealEstateTypeService {
 
-    public List<RealEstateType> getAll();
+    public List<RealEstateType> findAll();
+
+    public RealEstateType findById(Integer id);
 
 }

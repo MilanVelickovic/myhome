@@ -4,8 +4,10 @@ import com.myhome.models.Role;
 
 import java.util.List;
 
-public interface RoleServices {
+public interface RoleService {
 
     public List<Role> getAll();
+
+    public Role findById(Integer id);
 
 }

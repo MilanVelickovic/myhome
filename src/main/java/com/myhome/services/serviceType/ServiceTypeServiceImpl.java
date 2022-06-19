@@ -18,4 +18,9 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
         return serviceTypeRepository.findAll();
     }
 
+    @Override
+    public ServiceType findById(Integer id) {
+        return serviceTypeRepository.findById(id).get();
+    }
+
 }

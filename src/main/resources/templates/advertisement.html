@@ -1,129 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <th:block th:include="fragments/fragments :: head(title='Real Estate')"></th:block>
-    <style>
-        /* Header ================================= */
-        /* ======================================== */
-
-        .navbar-brand {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #navbarNav {
-            justify-content: flex-end !important;
-        }
-
-        /* Footer ================================= */
-        /* ======================================== */
-
-        footer {
-            width: 100%;
-            height: 60px;
-            background-color: #212529;
-            color: #FFF;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-
-        footer p {
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Carousel =============================== */
-        /* ======================================== */
-
-        #carouselExampleIndicators {
-            height: 500px;
-            overflow: hidden;
-        }
-
-        #carouselExampleIndicators .carousel-inner .carousel-item img {
-            width: 100%;
-            height: 500px;
-            object-fit: contain;
-        }
-
-        /* Detail Info ============================ */
-        /* ======================================== */
-
-        .detailInfo {
-            margin-top: 20px;
-            height: 500px;
-        }
-
-        .detailInfo .top {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .detailInfo .top div {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .detailInfo .top div .tag {
-            background-color: #5a49f3;
-            padding: 5px 10px;
-            color: #FFF;
-            font-weight: normal;
-            border-radius: 8px
-        }
-
-        .detailInfo .top div .price {
-            background-color: yellow;
-            padding: 5px 10px;
-            color: #212529;
-            border-radius: 8px
-        }
-
-        .detailInfo .body {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-
-        .detailInfo .body > div {
-            width: 250px;
-        }
-
-        .detailInfo .body div h3 {
-            margin-bottom: 15px;
-        }
-
-        .detailInfo > p:last-child {
-            width: 100%;
-            text-align: right;
-        }
-
-        /* Tags =================================== */
-        /* ======================================== */
-
-        #purchase {
-            background-color: #8ac926;
-        }
-
-        #sale {
-            background-color: #5497ff;
-        }
-
-        #rent {
-            background-color: #ff6b35;
-        }
-
-    </style>
+    <th:block th:include="fragments/fragments :: head(title='Real Estate Page', includeMDB=true)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
         <div id="carouselExampleIndicators" class="container carousel slide" data-bs-ride="carousel">
@@ -149,8 +26,7 @@
         <div class="container detailInfo">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/realestates}">Real estates</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/advertisements}">Advertisements</a></li>
                     <li class="breadcrumb-item active" aria-current="page" th:text="${advertisement.getTitle()}"></li>
                 </ol>
             </nav>

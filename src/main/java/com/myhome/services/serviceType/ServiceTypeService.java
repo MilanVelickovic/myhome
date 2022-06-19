@@ -8,4 +8,6 @@ public interface ServiceTypeService {
 
     public List<ServiceType> getAll();
 
+    public ServiceType findById(Integer id);
+
 }

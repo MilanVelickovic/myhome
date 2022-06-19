@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <th:block th:include="fragments/fragments :: head(title='Profile Edit Page', includeMDB=true)"></th:block>
+    <body>
+        <th:block th:include="fragments/fragments :: header"></th:block>
+        <div class="container editProfile py-5">
+            <div class="alert alert-warning" role="alert" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>&nbsp;
+                <strong>Note:</strong>&nbsp;This page is not functional yet!
+            </div>
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a th:href="@{/profile}">Profile</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img th:src="'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/' + ${user.getAvatar()} + '.webp'" alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3" th:text="${user.getFirstName()} + ' ' + ${user.getLastName()}"></h5>
+                            <p class="text-muted mb-1" th:text="${user.getRole().getName()}"></p>
+                            <p class="text-muted mb-4" th:text="'Joined on ' + ${user.getJoinedOn().toString().substring(0, 10)}"></p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a th:href="@{/profile}">
+                                    <button type="button" class="btn btn-primary">Go back</button>
+                                </a>
+                                <a th:href="@{/profile/save}">
+                                    <button type="button" class="btn btn-outline-success ms-1"><i class="fa-solid fa-cloud-arrow-up"></i> Save</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Avatar</p>
+                                </div>
+                                <div class="col-sm-8">
+
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">First name</p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="text-muted mb-0" th:text="${user.getFirstName()}"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Last name</p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="text-muted mb-0" th:text="${user.getLastName()}"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email address</p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="text-muted mb-0" th:text="${user.getEmail()}"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Phone number</p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="text-muted mb-0" th:text="${user.getPhoneNumber()}"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Password</p>
+                                </div>
+                                <div class="col-sm-8">
+                                    <p class="text-muted mb-0" th:text="'*****' + ${user.getPassword().substring(50).toLowerCase()}"></p>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-lg-3 col-lg-9">
+                    <h2>Delete account</h2>
+                    <p>I would like to delete my profile and all its data, including published advertisements.</p>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Note: </strong>Deleting a profile is permanent and there is no way to restore it!
+                    </div>
+                    <div class="mb-4 mb-lg-0">
+                        <button class="btn btn-danger" type="button"><i class="fa-solid fa-triangle-exclamation"></i> Delete account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:include="fragments/fragments :: footer"></th:block>
+    </body>
+</html>

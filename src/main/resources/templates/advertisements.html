@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <th:block th:include="fragments/fragments :: head(title='Real Estates Page')"></th:block>
+    <th:block th:include="fragments/fragments :: head(title='Real Estates Page', includeMDB=true)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
         <div class="container filterTools">
@@ -67,40 +67,11 @@
                 </div>
             </form>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Real estates</li>
+                <li class="breadcrumb-item active" aria-current="page">Advertisements</li>
             </ol>
         </div>
         <div class="container realEstatesGrid">
-            <div class="container realEstatesGrid">
-                <div th:each="advertisement : ${advertisements}" class="card" style="width: 26.5rem;">
-                    <img th:src="@{'/fileServer/gallery/' + ${hashCreator.createHash(advertisement.getUser().getEmail())} + '/' + ${hashCreator.createHash(advertisement.getId())} + '/1.jpg'}" class="card-img-top" alt="Real estate image">
-                    <div class="card-body">
-                        <div style="align-items: flex-start; height: 56px">
-                            <h5 class="card-title" th:text="${advertisement.getTitle()}"></h5>
-                            <p class="price" th:text="${converter.convertPrice('EUR', advertisement.getPrice())}"></p>
-                        </div>
-                        <div class="location">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
-                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                </svg>&nbsp;
-                                <p th:text="${advertisement.getRealEstate().getAddress().getCountry() + ', ' + advertisement.getRealEstate().getAddress().getCity()}"></p>
-                            </div>&nbsp;
-                            <i th:class="'flag flag-' + ${advertisement.getRealEstate().getAddress().getCountry().toLowerCase()}"></i>
-                        </div>
-                        <p class="card-text" th:text="${advertisement.getDescription().substring(0, 60)} + '...'"></p>
-                        <div>
-                            <a th:href="@{/realestates/{id}(id=${advertisement.getId()})}" class="btn btn-primary">More details...</a>
-                            <div>
-                                <p class="tag" th:text="${advertisement.getRealEstate().getType().getName()}"></p>&nbsp;
-                                <p th:id="${advertisement.getService().getName().toLowerCase()}" class="tag" th:text="${advertisement.getService().getName()}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement})"></th:block>
         </div>
         <th:block th:include="fragments/fragments :: footer"></th:block>
     </body>

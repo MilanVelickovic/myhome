@@ -1,18 +1,51 @@
 package com.myhome.controllers;
 
+import com.myhome.models.Advertisement;
+import com.myhome.models.User;
+import com.myhome.services.advertisement.AdvertisementService;
+import com.myhome.services.user.UserDetailsImpl;
+import com.myhome.utils.Converter;
+import com.myhome.utils.HashCreator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
-@RequestMapping(value = {"/profile"})
+@RequiredArgsConstructor
 public class ProfileController {
 
-    @GetMapping
-    public ModelAndView getProfilePage() {
+    private final AdvertisementService advertisementService;
+
+    @GetMapping("/profile/edit")
+    public ModelAndView getEditPage() {
+
+        User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("profileedit");
+        return modelAndView;
+    }
+
+    @GetMapping("/profile")
+    public ModelAndView getProfilePage() {
+
+        User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        List<Advertisement> advertisements = advertisementService.findByUser(user);
+
+        Converter converter = new Converter();
+        HashCreator hashCreator = new HashCreator();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("advertisements", advertisements);
+        modelAndView.addObject("converter", converter);
+        modelAndView.addObject("hashCreator", hashCreator);
         modelAndView.setViewName("profile");
         return modelAndView;
     }

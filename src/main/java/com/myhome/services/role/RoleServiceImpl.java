@@ -9,13 +9,18 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleServices {
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
     @Override
     public List<Role> getAll() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Role findById(Integer id) {
+        return roleRepository.findById(id).get();
     }
 
 }
