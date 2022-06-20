@@ -37,7 +37,8 @@
                             <ul class="list-group list-group-flush rounded-3">
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                     <img src="https://cdn-icons-png.flaticon.com/512/921/921490.png" width="20" height="20" alt="Earth from Flaticon">
-                                    <p class="mb-0"><i class="flag flag-serbia"></i>Serbia</p>
+                                    <p class="mb-0"><i th:class="'flag flag-' + ${country.toLowerCase()}"></i><span th:text="${country}"></span></p>
+
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                                     <i class="fa-solid fa-envelope fa-lg text-warning"></i>
@@ -61,7 +62,23 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement})"></th:block>
+                    <div th:if="${advertisements.size() == 0}">
+                        <div  class="alert alert-success" role="alert" style="margin-top: 5px; width: 100%">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>&nbsp;
+                            Welcome, <span th:text="${user.getFirstName()}"></span>! We hope you will enjoy using our application!
+                        </div>
+                        <div class="alert alert-info" role="alert" style="margin-top: 5px; width: 100%">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>&nbsp;
+                        No published advertisements yet! Start by clicking the blue <strong>Add advertisement</strong> button in the bottom left corner.
+                    </div>
+                    </div>
+                    <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement}, profilePage=true)"></th:block>
                 </div>
             </div>
         </div>

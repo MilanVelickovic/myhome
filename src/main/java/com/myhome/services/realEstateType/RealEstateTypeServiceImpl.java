@@ -20,8 +20,6 @@ public class RealEstateTypeServiceImpl implements RealEstateTypeService {
 
     @Override
     public RealEstateType findById(Integer id) {
-        System.out.println(id);
-        System.out.println(realEstateTypeRepository.findById(id).get().getName());
         return realEstateTypeRepository.findById(id).get();
     }
 

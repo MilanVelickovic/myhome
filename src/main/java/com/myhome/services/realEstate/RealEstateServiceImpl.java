@@ -19,7 +19,17 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    public RealEstate save(RealEstate realEstate) {
-        return realEstateRepository.save(realEstate);
+    public void save(RealEstate realEstate) {
+        realEstateRepository.save(realEstate);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        realEstateRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(RealEstate realEstate) {
+        realEstateRepository.save(realEstate);
     }
 }

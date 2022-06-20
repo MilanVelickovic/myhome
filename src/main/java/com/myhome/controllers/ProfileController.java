@@ -5,6 +5,7 @@ import com.myhome.models.User;
 import com.myhome.services.advertisement.AdvertisementService;
 import com.myhome.services.user.UserDetailsImpl;
 import com.myhome.utils.Converter;
+import com.myhome.utils.Countries;
 import com.myhome.utils.HashCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,16 +37,14 @@ public class ProfileController {
 
         User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
-        List<Advertisement> advertisements = advertisementService.findByUser(user);
-
-        Converter converter = new Converter();
-        HashCreator hashCreator = new HashCreator();
+        String country = new Countries().getCountryNameByDialCodeFromJSON(user.getPhoneNumber().substring(0, user.getPhoneNumber().indexOf(' ')));
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
-        modelAndView.addObject("advertisements", advertisements);
-        modelAndView.addObject("converter", converter);
-        modelAndView.addObject("hashCreator", hashCreator);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("advertisements", advertisementService.findByUser(user));
+        modelAndView.addObject("converter", new Converter());
+        modelAndView.addObject("hashCreator", new HashCreator());
         modelAndView.setViewName("profile");
         return modelAndView;
     }

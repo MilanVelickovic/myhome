@@ -3,7 +3,6 @@
     <th:block th:include="fragments/fragments :: head(title='Home Page', includeMDB=false)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
-
             <div id="createPage" class="container py-5 h-100">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -14,7 +13,7 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                         <div class="card-body p-4 p-lg-5 text-black">
-                            <form th:action="@{/advertisements/create}" method="POST" th:object="${advertisementCreateForm}">
+                            <form th:action="@{/advertisements/create}" method="POST" th:object="${advertisementForm}">
                                 <div class="d-flex align-items-center mb-3 pb-1">
                                     <span class="h1 fw-bold mb-0">Create advertisement</span>
                                 </div>
@@ -22,6 +21,7 @@
                                 <div>
                                     <div>
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Advertisement details</h5>
+                                        <input type="hidden" th:name="advertisementId" th:value="${null}" />
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Title</label>
                                             <input type="text" th:field="*{title}" class="form-control" />
@@ -33,9 +33,7 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Service</label>
                                             <select th:field="*{service}" class="form-select">
-                                                <!--<option value="Purchase">Purchase</option>-->
-                                                <option value="1">Sale</option>
-                                                <option value="2">Rent</option>
+                                                <option th:each="service: ${services}" th:value="${service.getId()}" th:text="${service.getName()}"></option>
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
@@ -50,13 +48,11 @@
 
                                     <div>
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Real estate details</h5>
+                                        <input type="hidden" th:name="realEstateId" th:value="${null}" />
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Type</label>
                                             <select th:field="*{type}" class="form-select">
-                                                <!--<option value="Purchase">Purchase</option>-->
-                                                <option value="1">House</option>
-                                                <option value="2">Apartment</option>
-                                                <option value="3">Land</option>
+                                                <option th:each="type: ${types}" th:value="${type.getId()}" th:text="${type.getName()}"></option>
                                             </select>
                                         </div>
                                         <div class="form-outline mb-4">
@@ -79,9 +75,10 @@
 
                                     <div>
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Address details</h5>
+                                        <input type="hidden" th:name="addressId" th:value="${null}" />
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Country</label>
-                                            <th:block th:include="fragments/fragments :: countrySelect"></th:block>
+                                            <th:block th:include="fragments/fragments :: countrySelect(countries=${countries} ,value='')"></th:block>
                                         </div>
                                         <div class="form-outline mb-4">
                                             <label class="form-label">City</label>
@@ -105,7 +102,6 @@
                     </div>
                 </div>
             </div>
-
         <th:block th:include="fragments/fragments :: footer"></th:block>
     </body>
 </html>

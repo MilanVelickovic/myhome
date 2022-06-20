@@ -7,11 +7,14 @@ import com.myhome.services.realEstate.RealEstateService;
 import com.myhome.services.realEstateType.RealEstateTypeService;
 import com.myhome.services.serviceType.ServiceTypeService;
 import com.myhome.services.user.UserDetailsImpl;
-import com.myhome.services.user.UserService;
-import com.myhome.utils.AdvertisementCreateForm;
+import com.myhome.utils.AdvertisementForm;
 import com.myhome.utils.Converter;
+import com.myhome.utils.Countries;
 import com.myhome.utils.HashCreator;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,8 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,22 +38,16 @@ public class AdvertisementsController {
 
     private final RealEstateTypeService realEstateTypeService;
 
-    private final RealEstateService realEstateService;
-
     private final ServiceTypeService serviceTypeService;
 
 
     @GetMapping(value = {"/", "/advertisements"})
     public ModelAndView getAdvertisementsPage() {
 
-        List<Advertisement> advertisements = advertisementService.findAll();
-        Converter converter = new Converter();
-        HashCreator hashCreator = new HashCreator();
-
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("converter", converter);
-        modelAndView.addObject("hashCreator", hashCreator);
-        modelAndView.addObject("advertisements", advertisements);
+        modelAndView.addObject("converter", new Converter());
+        modelAndView.addObject("hashCreator", new HashCreator());
+        modelAndView.addObject("advertisements", advertisementService.findAll());
         modelAndView.setViewName("advertisements");
         return modelAndView;
     }
@@ -90,82 +85,97 @@ public class AdvertisementsController {
         return modelAndView;
     }
 
-    @GetMapping("/advertisements/edit/{id}")
-    public ModelAndView getAdvertisementEditPage(@PathVariable Integer id) {
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("advertisementedit");
-        return modelAndView;
-    }
-
     @GetMapping("/advertisements/create")
     public ModelAndView getAdvertisementCreatePage() {
 
-        AdvertisementCreateForm advertisementCreateForm = new AdvertisementCreateForm();
-
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("advertisementCreateForm", advertisementCreateForm);
+        modelAndView.addObject("advertisementForm", new AdvertisementForm());
+        modelAndView.addObject("countries", new Countries().loadCountryNamesFromJSON());
+        modelAndView.addObject("services", serviceTypeService.findAll());
+        modelAndView.addObject("types", realEstateTypeService.findAll());
         modelAndView.setViewName("advertisementcreate");
         return modelAndView;
     }
 
     @PostMapping("/advertisements/create")
-    public ModelAndView createAdvertisement(@Validated AdvertisementCreateForm advertisementCreateForm, BindingResult bindingResult) {
+    public ModelAndView createAdvertisement(@Validated AdvertisementForm advertisementForm) {
+
+        User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        advertisementService.createAdvertisement(advertisementForm);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/profile");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("hashCreator", new HashCreator());
+        modelAndView.addObject("converter", new Converter());
+        modelAndView.addObject("advertisements", advertisementService.findByUser(user));
+        return modelAndView;
+    }
+
+    @GetMapping("/advertisements/edit/{id}")
+    public ModelAndView getAdvertisementEditPage(@PathVariable Integer id) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("advertisement", advertisementService.findById(id));
+        modelAndView.addObject("advertisementForm", new AdvertisementForm());
+        modelAndView.addObject("countries", new Countries().loadCountryNamesFromJSON());
+        modelAndView.addObject("services", serviceTypeService.findAll());
+        modelAndView.addObject("types", realEstateTypeService.findAll());
+        modelAndView.setViewName("advertisementedit");
+        return modelAndView;
+    }
+
+    @PostMapping("/advertisements/edit")
+    public ModelAndView editAdvertisement(@Validated AdvertisementForm advertisementForm) {
+
+        User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        advertisementService.updateAdvertisement(advertisementForm);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/profile");
+        modelAndView.addObject("advertisements", advertisementService.findByUser(user));
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("hashCreator", new HashCreator());
+        modelAndView.addObject("converter", new Converter());
+        return modelAndView;
+    }
+
+    @GetMapping("/advertisements/delete/{id}")
+    public ModelAndView getAdvertisementDeletePage(@PathVariable Integer id) {
+
+        Advertisement advertisement = advertisementService.findById(id);
 
         User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
-        Address address = new Address();
-        address.setId(null);
-        address.setCountry(advertisementCreateForm.getCountry());
-        address.setCity(advertisementCreateForm.getCity());
-        address.setStreet(advertisementCreateForm.getStreet());
-        address.setNumber(advertisementCreateForm.getNumber());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("profile");
 
-        Address createdAddress = addressService.save(address);
+        if ((advertisement != null && user.getId() == advertisement.getUser().getId()) || user.getRole().getName().equals("Admin")) {
 
-        RealEstate realEstate = new RealEstate();
-        realEstate.setId(null);
-        realEstate.setType(realEstateTypeService.findById(Integer.parseInt(advertisementCreateForm.getType())));
-        realEstate.setAddress(address);
-        realEstate.setSize(advertisementCreateForm.getSize());
-        realEstate.setBedrooms(advertisementCreateForm.getBedrooms());
-        realEstate.setBathrooms(advertisementCreateForm.getBathrooms());
-        realEstate.setCarSpaces(advertisementCreateForm.getCarSpaces());
+            modelAndView.addObject("advertisementId", advertisement.getId());
+            modelAndView.setViewName("advertisementdelete");
 
-        RealEstate createdrealEstate = realEstateService.save(realEstate);
-
-        Advertisement advertisement = new Advertisement();
-        advertisement.setId(null);
-        advertisement.setTitle(advertisementCreateForm.getTitle());
-        advertisement.setDescription(advertisementCreateForm.getDescription());
-        advertisement.setUser(user);
-        advertisement.setRealEstate(realEstate);
-        advertisement.setService(serviceTypeService.findById(Integer.parseInt(advertisementCreateForm.getService())));
-        advertisement.setPrice(advertisementCreateForm.getPrice());
-        advertisement.setPublishedOn(Instant.now());
-
-        Advertisement createdAdvertisement = advertisementService.save(advertisement);
-
-        HashCreator hashCreator = new HashCreator();
-
-        createdAdvertisement = advertisementService.findByPublishedOn(advertisement.getPublishedOn());
-
-        try {
-            String path = Paths.get(".").toAbsolutePath().toString();
-            path = path.substring(0, path.length() - 1) + "src/main/resources/static/fileServer/gallery/" + hashCreator.createHash(user.getEmail()) + "/" + hashCreator.createHash(createdAdvertisement.getId().toString());
-
-            if (new File(path).mkdir()) {
-                System.out.println("Advertisement directory created successfully!");
-            } else {
-                System.out.println("Failed to create advertisement directory!");
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("advertisementcreate");
         return modelAndView;
     }
+
+    @PostMapping("/advertisements/delete/{id}")
+    public ModelAndView deleteAdvertisement(@PathVariable Integer id) {
+
+        User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        Advertisement advertisement = advertisementService.findById(id);
+
+        addressService.deleteById(advertisement.getRealEstate().getAddress().getId());
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/profile");
+        modelAndView.addObject("advertisements", advertisementService.findByUser(user));
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("hashCreator", new HashCreator());
+        modelAndView.addObject("converter", new Converter());
+        return modelAndView;
+    }
+
 }
