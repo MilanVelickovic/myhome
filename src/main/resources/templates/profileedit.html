@@ -147,12 +147,21 @@
             <div class="row">
                 <div class="offset-lg-3 col-lg-9">
                     <h2>Delete account</h2>
-                    <p>I would like to delete my profile and all its data, including published advertisements.</p>
+                    <p>I would like to delete my profile and all its data, including published advertisements. <br>
+                    To delete your profile, as <strong>CONFIRMATION CODE</strong> enter <strong>your password.</strong>.</p>
                     <div class="alert alert-warning" role="alert">
                         <strong>Note: </strong>Deleting a profile is permanent and there is no way to restore it!
                     </div>
+                    <div th:if="${param.deleteError}" class="alert alert-danger" role="alert">
+                        <strong>Error: </strong>Failed to delete your profile. <strong>CONFIRMATION CODE</strong> does not match with password.
+                    </div>
                     <div class="mb-4 mb-lg-0">
-                        <form th:action="@{/profile/delete}" method="POST">
+                        <form th:action="@{/profile/delete}" method="POST" th:object="${userDelForm}">
+                            <input type="hidden" th:name="id" th:value="${user.getId()}">
+                            <div class="form-outline mb-4">
+                                <input type="text" th:name="confirmationCode" id="form2Example87" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example87">CONFIRMATION CODE</label>
+                            </div>
                             <button class="btn btn-danger" type="submit"><i class="fa-solid fa-triangle-exclamation"></i> Delete account</button>
                         </form>
                     </div>
@@ -169,7 +178,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/profile/update}" method="POST" th:object="${userForm}">
+                        <form th:action="@{/profile/edit}" method="POST" th:object="${userForm}">
                             <div class="form-outline mb-4">
                                 <input type="text" th:name="firstName" th:value="${user.getFirstName()}" id="form2Example27" class="form-control form-control-lg" />
                                 <label class="form-label" for="form2Example27">First name</label>

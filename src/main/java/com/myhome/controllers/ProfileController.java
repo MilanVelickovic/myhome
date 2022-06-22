@@ -7,6 +7,7 @@ import com.myhome.services.user.UserService;
 import com.myhome.utils.Converter;
 import com.myhome.utils.Countries;
 import com.myhome.utils.HashCreator;
+import com.myhome.utils.forms.UserDelForm;
 import com.myhome.utils.forms.UserForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,18 +30,6 @@ public class ProfileController {
     private final AdvertisementService advertisementService;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @GetMapping("/profile/edit")
-    public ModelAndView getEditPage() {
-
-        User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("userForm", new UserForm());
-        modelAndView.setViewName("profileedit");
-        return modelAndView;
-    }
 
     @GetMapping("/profile")
     public ModelAndView getProfilePage() {
@@ -58,24 +48,33 @@ public class ProfileController {
         return modelAndView;
     }
 
-    @PostMapping("/profile/delete")
-    public ModelAndView getProfileDeletePage() {
+    @GetMapping(value = {"/profile/edit", "/profile/edit/{id}"})
+    public ModelAndView getEditPage(@PathVariable(required = false) Integer id) {
 
         User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
-        System.out.println(user.getEmail());
-        userService.delete(user);
+        if (id != null) {
+            user = userService.findById(id);
+        }
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/signout");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("userDelForm", new UserDelForm());
+        modelAndView.addObject("userForm", new UserForm());
+        modelAndView.setViewName("profileedit");
         return modelAndView;
     }
 
-    @PostMapping("/profile/update")
-    public ModelAndView updateProfile(@Validated UserForm userForm) {
+    @PostMapping(value = {"/profile/edit", "/profile/edit/{id}"})
+    public ModelAndView editProfile(@Validated UserForm userForm, @PathVariable(required = false) Integer id) {
 
         User user =  ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
         ModelAndView modelAndView = new ModelAndView("redirect:/profile/edit");
+
+        if (id != null) {
+            user = userService.findById(id);
+        }
 
         if (!user.getEmail().equals(userForm.getEmailAddress())) {
 
@@ -116,6 +115,26 @@ public class ProfileController {
 
         } else {
             modelAndView.addObject("editFailed", true);
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/profile/delete")
+    public ModelAndView getProfileDeletePage(@Validated UserDelForm userDelForm) {
+
+        User user = userService.findById(userDelForm.getId());
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/signout");
+
+        System.out.println(user.getPassword());
+        System.out.println(bCryptPasswordEncoder.encode(userDelForm.getConfirmationCode()));
+
+        if (user.getPassword().equals(bCryptPasswordEncoder.encode(userDelForm.getConfirmationCode()))) {
+            //userService.delete(user);
+        } else {
+            modelAndView = new ModelAndView("redirect:/profile/edit");
+            modelAndView.addObject("deleteError", true);
         }
 
         return modelAndView;

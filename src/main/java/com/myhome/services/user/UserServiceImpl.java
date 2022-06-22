@@ -2,6 +2,7 @@ package com.myhome.services.user;
 
 import com.myhome.models.User;
 import com.myhome.repository.UserRepository;
+import com.myhome.services.advertisement.AdvertisementService;
 import com.myhome.utils.HashCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final AdvertisementService advertisementService;
 
     @Override
     public User findByEmail(String email) {
@@ -62,7 +65,14 @@ public class UserServiceImpl implements UserService {
             ex.printStackTrace();
         }
 
+        advertisementService.deleteAllByUser(user);
+
         userRepository.deleteById(user.getId());
+    }
+
+    @Override
+    public User findById(Integer id) {
+        return userRepository.findById(id).get();
     }
 
     @Override

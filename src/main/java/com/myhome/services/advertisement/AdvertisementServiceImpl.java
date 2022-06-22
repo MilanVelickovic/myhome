@@ -206,5 +206,16 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     }
 
+    @Override
+    public void deleteAllByUser(User user) {
+
+        List<Advertisement> advertisements = advertisementRepository.findByUser(user).get();
+
+        for (Advertisement ad: advertisements) {
+            this.deleteAdvertisementById(ad.getId());
+        }
+
+    }
+
 
 }

@@ -30,4 +30,6 @@ public interface AdvertisementService {
 
     public Advertisement update(AdvertisementForm advertisementForm);
 
+    public void deleteAllByUser(User user);
+
 }
