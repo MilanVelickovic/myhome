@@ -8,10 +8,10 @@ public interface RealEstateService {
 
     public List<RealEstate> getAll();
 
-    public void save(RealEstate realEstate);
+    public RealEstate save(RealEstate realEstate);
 
     public void deleteById(Integer id);
 
-    public void update(RealEstate realEstate);
+    public RealEstate update(RealEstate realEstate);
 
 }

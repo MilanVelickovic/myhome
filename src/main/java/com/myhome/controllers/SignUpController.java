@@ -4,7 +4,7 @@ import com.myhome.models.User;
 import com.myhome.services.role.RoleService;
 import com.myhome.services.user.UserService;
 import com.myhome.utils.HashCreator;
-import com.myhome.utils.UserSignUpForm;
+import com.myhome.utils.forms.UserForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,10 +33,10 @@ public class SignUpController {
     @GetMapping
     public ModelAndView getSignUpPage() {
 
-        UserSignUpForm userSignUpForm = new UserSignUpForm();
+        UserForm userForm = new UserForm();
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userSignUpForm", userSignUpForm);
+        modelAndView.addObject("userForm", userForm);
         modelAndView.addObject("emailError", false);
         modelAndView.addObject("passwordError", false);
         modelAndView.setViewName("signup");
@@ -44,22 +44,22 @@ public class SignUpController {
     }
 
     @PostMapping
-    public ModelAndView signUp(@Validated UserSignUpForm userSignUpForm, BindingResult bindingResult) {
+    public ModelAndView signUp(@Validated UserForm userForm, BindingResult bindingResult) {
 
-        User user = userService.findByEmail(userSignUpForm.getEmailAddress());
+        User user = userService.findByEmail(userForm.getEmailAddress());
         HashCreator hashCreator = new HashCreator();
 
         ModelAndView modelAndView = new ModelAndView();
 
         if (user == null) {
-            if (userSignUpForm.getPassword().equals(userSignUpForm.getRepeatPassword())) {
+            if (userForm.getPassword().equals(userForm.getRepeatPassword())) {
                 user = new User();
                 user.setId(null);
-                user.setEmail(userSignUpForm.getEmailAddress());
-                user.setFirstName(userSignUpForm.getFirstName());
-                user.setLastName(userSignUpForm.getLastName());
-                user.setPhoneNumber(userSignUpForm.getPhoneNumber());
-                user.setPassword(bCryptPasswordEncoder.encode(userSignUpForm.getPassword()));
+                user.setEmail(userForm.getEmailAddress());
+                user.setFirstName(userForm.getFirstName());
+                user.setLastName(userForm.getLastName());
+                user.setPhoneNumber(userForm.getPhoneNumber());
+                user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
                 user.setRole(roleService.findById(1));
                 user.setAvatar("ava1");
                 user.setJoinedOn(Instant.now());
@@ -68,7 +68,7 @@ public class SignUpController {
 
                 try {
                     String path = Paths.get(".").toAbsolutePath().toString();
-                    path = path.substring(0, path.length() - 1) + "src/main/resources/static/fileServer/" + hashCreator.createHash(user.getEmail());
+                    path = path.substring(0, path.length() - 1) + "src/main/resources/static/fileServer/gallery/" + hashCreator.createHash(user.getEmail());
 
                     File file = new File(path);
 

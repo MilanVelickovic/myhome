@@ -10,7 +10,7 @@ import com.myhome.services.realEstate.RealEstateService;
 import com.myhome.services.realEstateType.RealEstateTypeService;
 import com.myhome.services.serviceType.ServiceTypeService;
 import com.myhome.services.user.UserDetailsImpl;
-import com.myhome.utils.AdvertisementForm;
+import com.myhome.utils.forms.AdvertisementForm;
 import com.myhome.utils.HashCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,6 +42,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public Advertisement findById(Integer id) {
+        System.out.println(advertisementRepository.findById(id).get().getTitle());
         return advertisementRepository.findById(id).get();
     }
 
@@ -51,8 +52,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public void save(Advertisement advertisement) {
-        advertisementRepository.save(advertisement);
+    public Advertisement save(Advertisement advertisement) {
+        return advertisementRepository.save(advertisement);
     }
 
     @Override
@@ -72,8 +73,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         address.setStreet(advertisementForm.getStreet());
         address.setNumber(advertisementForm.getNumber());
 
-        addressService.save(address);
-
         RealEstate realEstate = new RealEstate();
         realEstate.setId(advertisementForm.getRealEstateId());
         realEstate.setType(realEstateTypeService.findById(Integer.parseInt(advertisementForm.getType())));
@@ -82,8 +81,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         realEstate.setBedrooms(advertisementForm.getBedrooms());
         realEstate.setBathrooms(advertisementForm.getBathrooms());
         realEstate.setCarSpaces(advertisementForm.getCarSpaces());
-
-        realEstateService.save(realEstate);
 
         Advertisement advertisement = new Advertisement();
         advertisement.setId(advertisementForm.getAdvertisementId());
@@ -95,6 +92,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setPrice(advertisementForm.getPrice());
         advertisement.setPublishedOn(Instant.now());
 
+        addressService.save(address);
+        realEstateService.save(realEstate);
         this.save(advertisement);
 
         HashCreator hashCreator = new HashCreator();
@@ -118,19 +117,60 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public void deleteAdvertisementById(Integer id) {
+
+        Advertisement advertisement = this.findById(id);
+
+        this.deleteById(advertisement.getId());
+        realEstateService.deleteById(advertisement.getRealEstate().getId());
+        addressService.deleteById(advertisement.getRealEstate().getAddress().getId());
+
+        User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        if (!advertisement.getUser().equals(user)) {
+            user = advertisement.getUser();
+        }
+
+        HashCreator hashCreator = new HashCreator();
+
+        try {
+            String path = Paths.get(".").toAbsolutePath().toString();
+            path = path.substring(0, path.length() - 1) + "src/main/resources/static/fileServer/gallery/" + hashCreator.createHash(user.getEmail()) + "/" + hashCreator.createHash(advertisement.getId().toString());
+
+            System.out.println(path);
+
+            if (new File(path).delete()) {
+                System.out.println("Advertisement directory deleted successfully!");
+            } else {
+                System.out.println("Failed to delete advertisement directory!");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void deleteById(Integer id) {
         advertisementRepository.deleteById(id);
     }
 
     @Override
-    public void update(Advertisement advertisement) {
-        advertisementRepository.save(advertisement);
+    public Advertisement update(Advertisement advertisement) {
+        return advertisementRepository.save(advertisement);
     }
 
     @Override
-    public void updateAdvertisement(AdvertisementForm advertisementForm) {
+    public Advertisement update(AdvertisementForm advertisementForm) {
+
+        Advertisement oldVersionAdvertisement = this.findById(advertisementForm.getAdvertisementId());
 
         User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        if (!oldVersionAdvertisement.getUser().equals(user)) {
+            user = oldVersionAdvertisement.getUser();
+        }
 
         Address address = new Address();
         address.setId(advertisementForm.getAddressId());
@@ -162,7 +202,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setPrice(advertisementForm.getPrice());
         advertisement.setPublishedOn(Instant.now());
 
-        this.update(advertisement);
+        return this.update(advertisement);
 
     }
 

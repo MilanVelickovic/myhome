@@ -32,6 +32,7 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label">Service</label>
                                         <select th:name="service" class="form-select">
+                                            <option value="None">Select</option>
                                             <option th:each="service: ${services}" th:value="${service.getId()}" th:text="${service.getName()}" th:selected="(${advertisement.getService().getId()} == ${service.getId()})"></option>
                                         </select>
                                     </div>
@@ -51,6 +52,7 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label">Type</label>
                                         <select th:name="type" class="form-select">
+                                            <option value="None">Select</option>
                                             <option th:each="type: ${types}" th:value="${type.getId()}" th:text="${type.getName()}" th:selected="(${advertisement.getRealEstate().getType().getId()} == ${type.getId()})"></option>
                                         </select>
                                     </div>

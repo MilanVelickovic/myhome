@@ -78,7 +78,7 @@
                         No published advertisements yet! Start by clicking the blue <strong>Add advertisement</strong> button in the bottom left corner.
                     </div>
                     </div>
-                    <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement}, profilePage=true)"></th:block>
+                    <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement}, profilePage=true, user=${user})"></th:block>
                 </div>
             </div>
         </div>

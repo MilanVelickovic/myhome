@@ -4,11 +4,25 @@
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
         <div class="container editProfile py-5">
-            <div class="alert alert-warning" role="alert" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
+            <!--<div class="alert alert-warning" role="alert" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                 </svg>&nbsp;
                 <strong>Note:</strong>&nbsp;This page is not functional yet!
+            </div>-->
+            <div th:if="${param.editPerformed}" class="alert alert-success" role="alert" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                </svg>&nbsp;
+                <strong>Success:</strong>&nbsp;You have edited your profile successfully!
+            </div>
+            <div th:if="${param.editFailed}" class="alert alert-danger" role="alert" style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>&nbsp;
+                <strong>Error:</strong>&nbsp;Something went wrong while editing your profile. Please try again.
             </div>
             <div class="row">
                 <div class="col">
@@ -48,10 +62,12 @@
                                     <p class="mb-0">Avatar</p>
                                 </div>
                                 <div class="col-sm-8">
-
+                                    <p class="text-muted mb-0" th:text="${user.getAvatar()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                             <hr>
@@ -63,7 +79,9 @@
                                     <p class="text-muted mb-0" th:text="${user.getFirstName()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                             <hr>
@@ -75,7 +93,9 @@
                                     <p class="text-muted mb-0" th:text="${user.getLastName()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                             <hr>
@@ -87,7 +107,9 @@
                                     <p class="text-muted mb-0" th:text="${user.getEmail()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                             <hr>
@@ -99,7 +121,9 @@
                                     <p class="text-muted mb-0" th:text="${user.getPhoneNumber()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                             <hr>
@@ -111,7 +135,9 @@
                                     <p class="text-muted mb-0" th:text="'*****' + ${user.getPassword().substring(50).toLowerCase()}"></p>
                                 </div>
                                 <div class="col-sm-1">
-                                    <p class="mb-0"><i class="fa-solid fa-pen" style="color: #0d6efd"></i></p>
+                                    <button type="button" class="mb-0" style="background-color: #FFF; border: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-pen" style="color: #0d6efd" data-toggle="modal" data-target="#exampleModal"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +152,61 @@
                         <strong>Note: </strong>Deleting a profile is permanent and there is no way to restore it!
                     </div>
                     <div class="mb-4 mb-lg-0">
-                        <button class="btn btn-danger" type="button"><i class="fa-solid fa-triangle-exclamation"></i> Delete account</button>
+                        <form th:action="@{/profile/delete}" method="POST">
+                            <button class="btn btn-danger" type="submit"><i class="fa-solid fa-triangle-exclamation"></i> Delete account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">User details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/profile/update}" method="POST" th:object="${userForm}">
+                            <div class="form-outline mb-4">
+                                <input type="text" th:name="firstName" th:value="${user.getFirstName()}" id="form2Example27" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example27">First name</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" th:name="lastName" th:value="${user.getLastName()}" id="form2Example37" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example37">Last name</label>
+                            </div>
+                            <div id="dialCode" class="form-outline mb-4">
+                                <label class="form-label" for="phone">Phone number</label><br/>
+                                <input type="text" th:name="phoneNumber" th:value="${user.getPhoneNumber()}" id="phone" class="form-control form-control-lg" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="email" th:name="emailAddress" th:value="${user.getEmail()}" id="form2Example47" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example47">Email address</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" th:name="password" th:value="${user.getPassword()}" id="form2Example57" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example57">Password</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="password" th:name="repeatPassword" th:value="${user.getPassword()}" id="form2Example67" class="form-control form-control-lg" />
+                                <label class="form-label" for="form2Example67">Repeat password</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <select th:name="avatar" th:value="${user.getAvatar()}" class="form-control form-control-lg">
+                                    <option value="ava1">Avatar 1</option>
+                                    <option value="ava2">Avatar 2</option>
+                                    <option value="ava3">Avatar 3</option>
+                                    <option value="ava4">Avatar 4</option>
+                                    <option value="ava5">Avatar 5</option>
+                                    <option value="ava6">Avatar 6</option>
+                                </select>
+                                <label class="form-label">First name</label>
+                            </div>
+                            <button class="btn btn-success" style="right: 0;" type="submit">Save changes</button>
+                        </form>
                     </div>
                 </div>
             </div>

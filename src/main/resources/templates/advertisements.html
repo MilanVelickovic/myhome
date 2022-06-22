@@ -3,75 +3,17 @@
     <th:block th:include="fragments/fragments :: head(title='Real Estates Page', includeMDB=true)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
-        <div class="container filterTools">
-            <h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#212529" class="bi bi-search-heart" viewBox="0 0 16 16">
-                    <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
-                    <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
-                </svg>
-                Search by...
-            </h2>
-            <form>
-                <div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <div>
-                            <input type="number" name="price_min" class="form-control" placeholder="Min">
-                            <input type="number" name="price_max" class="form-control" placeholder="Max">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Size (m<sup>2</sup>)</label>
-                        <div>
-                            <input type="number" name="size_min" class="form-control" placeholder="Min">
-                            <input type="number" name="size_max" class="form-control" placeholder="Max">
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-group">
-                        <label>Service</label>
-                        <select name="service" class="form-control">
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
-                            <option value="rent">Rent</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Type</label>
-                        <select name="type" class="form-control">
-                            <option value="house">House</option>
-                            <option value="apartment">Apartment</option>
-                            <option value="land">Land</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-group">
-                        <label>Country</label>
-                        <select name="country" class="form-control">
-                            <option value="country1">Country 1</option>
-                            <option value="country2">Country 2</option>
-                            <option value="country3">Country 3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>City</label>
-                        <input type="text" name="city" class="form-control" placeholder="City">
-                    </div>
-                </div>
-                <div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Search</button>
-                    </div>
-                </div>
-            </form>
+        <div class="container">
+            <h2 style="margin-top: 50px">Advertisements</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">Advertisements</li>
             </ol>
         </div>
         <div class="container realEstatesGrid">
-            <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement})"></th:block>
+            <div th:if="${advertisements.size() == 0}">
+                <h3>There are no advertisements for given search parameters.</h3>
+            </div>
+            <th:block th:each="advertisement : ${advertisements}" th:include="fragments/fragments :: card(converter=${converter}, hashCreator=${hashCreator}, advertisement=${advertisement}, profilePage=false, user=${user})"></th:block>
         </div>
         <th:block th:include="fragments/fragments :: footer"></th:block>
     </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <th:block th:include="fragments/fragments :: head(title='Home Page', includeMDB=false)"></th:block>
+    <th:block th:include="fragments/fragments :: head(title='Create Advertisement Page', includeMDB=false)"></th:block>
     <body>
         <th:block th:include="fragments/fragments :: header"></th:block>
             <div id="createPage" class="container py-5 h-100">
@@ -33,6 +33,7 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Service</label>
                                             <select th:field="*{service}" class="form-select">
+                                                <option value="None">Select</option>
                                                 <option th:each="service: ${services}" th:value="${service.getId()}" th:text="${service.getName()}"></option>
                                             </select>
                                         </div>
@@ -52,6 +53,7 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label">Type</label>
                                             <select th:field="*{type}" class="form-select">
+                                                <option value="None">Select</option>
                                                 <option th:each="type: ${types}" th:value="${type.getId()}" th:text="${type.getName()}"></option>
                                             </select>
                                         </div>

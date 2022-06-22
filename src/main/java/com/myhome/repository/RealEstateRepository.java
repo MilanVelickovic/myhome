@@ -4,11 +4,12 @@ import com.myhome.models.RealEstate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RealEstateRepository extends JpaRepository<RealEstate, Integer> {
 
     List<RealEstate> findAll();
 
-    RealEstate findAllByIdLike(Integer id);
+    Optional<List<RealEstate>> findBySizeBetween(Integer min, Integer max);
 
 }

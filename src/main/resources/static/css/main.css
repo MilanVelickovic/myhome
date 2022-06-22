@@ -52,41 +52,6 @@ footer p {
 /* Real Estates Page ====================== */
 /* ======================================== */
 
-.filterTools {
-    margin-top: 30px;
-}
-
-.filterTools h2 {
-    margin-bottom: 15px;
-}
-
-.filterTools form {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.filterTools form div .form-group div input,
-.filterTools form div .form-group select,
-.filterTools form div .form-group input {
-    width: 170px;
-    margin-right: 10px;
-}
-
-.filterTools form div .form-group button {
-    width: 100px;
-    margin-top: 24px;
-}
-
-.filterTools form div .form-group > div {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 .realEstatesGrid {
     width: 100%;
     padding: 10px 5px;
@@ -103,7 +68,8 @@ footer p {
 }
 
 #card #deleteAdvertisement,
-#card #editAdvertisement {
+#card #editAdvertisement,
+#card #editUser {
     width: 32px;
     height: 32px;
     color: white;
@@ -121,6 +87,12 @@ footer p {
     color: white;
     background-color: #0d6efd;
     right: 46px;
+}
+
+#card #editUser {
+    color: white;
+    background-color: #57e024;
+    right: 83px;
 }
 
 #card img {

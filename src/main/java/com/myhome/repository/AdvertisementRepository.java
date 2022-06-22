@@ -1,6 +1,7 @@
 package com.myhome.repository;
 
 import com.myhome.models.Advertisement;
+import com.myhome.models.RealEstate;
 import com.myhome.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,7 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
     Optional<List<Advertisement>> findByUser(User user);
 
     Optional<Advertisement> findByPublishedOn(Instant instant);
+
+    Optional<Advertisement> findByRealEstate(RealEstate realEstate);
 
 }

@@ -8,10 +8,10 @@ public interface AddressService {
 
     public List<Address> getAll();
 
-    public void save(Address address);
+    public Address save(Address address);
 
     public void deleteById(Integer id);
 
-    public void update(Address address);
+    public Address update(Address address);
 
 }

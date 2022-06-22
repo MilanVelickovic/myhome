@@ -19,8 +19,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    public void save(RealEstate realEstate) {
-        realEstateRepository.save(realEstate);
+    public RealEstate save(RealEstate realEstate) {
+        return realEstateRepository.save(realEstate);
     }
 
     @Override
@@ -29,7 +29,8 @@ public class RealEstateServiceImpl implements RealEstateService {
     }
 
     @Override
-    public void update(RealEstate realEstate) {
-        realEstateRepository.save(realEstate);
+    public RealEstate update(RealEstate realEstate) {
+        return realEstateRepository.save(realEstate);
     }
+
 }

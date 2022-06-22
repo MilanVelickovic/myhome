@@ -3,21 +3,17 @@ package com.myhome.controllers;
 import com.myhome.models.*;
 import com.myhome.services.address.AddressService;
 import com.myhome.services.advertisement.AdvertisementService;
-import com.myhome.services.realEstate.RealEstateService;
 import com.myhome.services.realEstateType.RealEstateTypeService;
 import com.myhome.services.serviceType.ServiceTypeService;
 import com.myhome.services.user.UserDetailsImpl;
-import com.myhome.utils.AdvertisementForm;
+import com.myhome.utils.forms.AdvertisementForm;
 import com.myhome.utils.Converter;
 import com.myhome.utils.Countries;
 import com.myhome.utils.HashCreator;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,10 +40,25 @@ public class AdvertisementsController {
     @GetMapping(value = {"/", "/advertisements"})
     public ModelAndView getAdvertisementsPage() {
 
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        User user = new User();
+        Role role = new Role();
+        role.setId(Integer.parseInt("0"));
+        user.setRole(role);
+
+        System.out.println(context.getAuthentication().isAuthenticated());
+
+
+
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
         modelAndView.addObject("converter", new Converter());
         modelAndView.addObject("hashCreator", new HashCreator());
         modelAndView.addObject("advertisements", advertisementService.findAll());
+        modelAndView.addObject("countries", new Countries().loadCountryNamesFromJSON());
+        modelAndView.addObject("services", serviceTypeService.findAll());
+        modelAndView.addObject("types", realEstateTypeService.findAll());
         modelAndView.setViewName("advertisements");
         return modelAndView;
     }
@@ -131,7 +142,7 @@ public class AdvertisementsController {
 
         User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
-        advertisementService.updateAdvertisement(advertisementForm);
+        Advertisement advertisement = advertisementService.update(advertisementForm);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/profile");
         modelAndView.addObject("advertisements", advertisementService.findByUser(user));
@@ -164,11 +175,9 @@ public class AdvertisementsController {
     @PostMapping("/advertisements/delete/{id}")
     public ModelAndView deleteAdvertisement(@PathVariable Integer id) {
 
+        advertisementService.deleteAdvertisementById(id);
+
         User user = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-
-        Advertisement advertisement = advertisementService.findById(id);
-
-        addressService.deleteById(advertisement.getRealEstate().getAddress().getId());
 
         ModelAndView modelAndView = new ModelAndView("redirect:/profile");
         modelAndView.addObject("advertisements", advertisementService.findByUser(user));
