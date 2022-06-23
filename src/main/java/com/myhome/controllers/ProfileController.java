@@ -130,8 +130,8 @@ public class ProfileController {
         System.out.println(user.getPassword());
         System.out.println(bCryptPasswordEncoder.encode(userDelForm.getConfirmationCode()));
 
-        if (user.getPassword().equals(bCryptPasswordEncoder.encode(userDelForm.getConfirmationCode()))) {
-            //userService.delete(user);
+        if (bCryptPasswordEncoder.matches(userDelForm.getConfirmationCode(), user.getPassword())) {
+            userService.delete(user);
         } else {
             modelAndView = new ModelAndView("redirect:/profile/edit");
             modelAndView.addObject("deleteError", true);

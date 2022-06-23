@@ -5,11 +5,18 @@
         <th:block th:include="fragments/fragments :: header"></th:block>
         <div id="carouselExampleIndicators" class="container carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img th:src="@{'/fileServer/gallery/' + ${userFolder} + '/' + ${advertisementFolder} + '/1.jpg'}" class="d-block w-100 img-fluid" alt="Image">
+                <div th:if="${numOfImages > 0}">
+                    <div class="carousel-item active">
+                        <img th:src="@{'/fileServer/gallery/' + ${userFolder} + '/' + ${advertisementFolder} + '/1.jpg'}" class="d-block w-100 img-fluid" alt="Image">
+                    </div>
+                    <div th:each="i : ${#numbers.sequence(2 , numOfImages, 1)}" class="carousel-item">
+                        <img th:src="@{'/fileServer/gallery/' + ${userFolder} + '/' + ${advertisementFolder} + '/' + ${i} + '.jpg'}" class="d-block w-100 img-fluid" alt="Image">
+                    </div>
                 </div>
-                <div th:each="i : ${#numbers.sequence(2 , numOfImages, 1)}" class="carousel-item">
-                    <img th:src="@{'/fileServer/gallery/' + ${userFolder} + '/' + ${advertisementFolder} + '/' + ${i} + '.jpg'}" class="d-block w-100 img-fluid" alt="Image">
+                <div th:unless="${numOfImages > 0}">
+                    <div class="carousel-item active">
+                        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.thensg.gov.za%2Fwp-content%2Fuploads%2F2020%2F07%2FNo_Image-7-scaled-1.jpg&f=1&nofb=1" class="d-block w-100 img-fluid" alt="Image">
+                    </div>
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
